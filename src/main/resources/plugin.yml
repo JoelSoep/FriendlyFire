@@ -1,0 +1,7 @@
+name: Friendlyfire
+version: '${project.version}'
+main: me.joelsoep.friendlyfire.Friendlyfire
+api-version: 1.19
+authors: [ JoelSoep ]
+description: FriendlyFire plugin for UzairCat :)
+website: https://soep.me/
