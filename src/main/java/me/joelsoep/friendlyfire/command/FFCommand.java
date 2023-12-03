@@ -18,6 +18,7 @@ import java.util.List;
 public class FFCommand extends BaseCommand {
 
     @Default
+    @CatchUnknown
     @Subcommand("help")
     public void onHelp(Player player) {
         player.sendMessage(MM.deserialize("""
