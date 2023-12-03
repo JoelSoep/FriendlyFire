@@ -178,4 +178,26 @@ public class FFCommand extends BaseCommand {
         playersToRemove.forEach(team::removePlayer);
         player.sendMessage(MM.deserialize("<gray>Cleared team <yellow>" + team.getName() + "<gray>!"));
     }
+
+    @Subcommand("nametags")
+    public void nametags(Player player, boolean value) {
+        if (value) {
+            Friendlyfire.teams.forEach((name, team) -> {
+                team.getPlayers().forEach(member -> {
+                    Bukkit.dispatchCommand(
+                            Bukkit.getConsoleSender(),
+                            "tab player " + member.getPlayer().getName() + " abovename " + team.getName());
+                });
+            });
+        } else {
+            Friendlyfire.teams.forEach((name, team) -> {
+                team.getPlayers().forEach(member -> {
+                    Bukkit.dispatchCommand(
+                            Bukkit.getConsoleSender(),
+                            "tab player " + member.getPlayer().getName() + " abovename  ");
+                });
+            });
+        }
+        player.sendMessage(MM.deserialize("<gray>Set the global nametag status to <yellow>" + value + "<gray>."));
+    }
 }
