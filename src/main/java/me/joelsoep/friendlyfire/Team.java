@@ -24,13 +24,13 @@ public class Team {
         }
 
         this.players.add(player);
-        Bukkit.dispatchCommand(Bukkit.getPlayer("JoelSoep"), "tab player " + player.getPlayer().getName() + " abovename " + this.getName());
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tab player " + player.getPlayer().getName() + " abovename " + this.getName());
         player.setTeam(this);
     }
 
     public void removePlayer(FFPlayer player) {
         this.players.remove(player);
         player.setTeam(null);
-        Bukkit.dispatchCommand(Bukkit.getPlayer("JoelSoep"), "tab player " + player.getPlayer().getName() + " abovename  ");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tab player " + player.getPlayer().getName() + " abovename  ");
     }
 }
