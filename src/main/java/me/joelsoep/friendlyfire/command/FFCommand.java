@@ -30,6 +30,10 @@ public class FFCommand extends BaseCommand {
                 <gray>/ct radius [TEAM_NAME] (Assigns players within a 15 block radius to the certain team implied)
                 <gray>/ct list [TEAM_NAME] (List Players on a team)
                 <gray>/ct listteams (List all created teams)
+                <gray>/ct friendlyfire [TEAM_NAME] [BOOLEAN] (Manage the friendlyfire status of the team.)
+                <gray>/ct clear [TEAM_NAME] (Remove all players from a team)
+                <gray>/ct nametags (Disable or enable nametags globally)
+                <gray>/ct assignall (Assign all players who aren't in a team to a team.)
                 """));
     }
 
@@ -105,10 +109,6 @@ public class FFCommand extends BaseCommand {
         Bukkit.getOnlinePlayers().forEach(target -> {
             double distance = player.getLocation().distance(target.getLocation());
             if (distance < radius) {
-                if (target.getName().equals(player.getName())) {
-                    return;
-                }
-
                 FFPlayer FFtarget = Friendlyfire.playerList.get(target.getName());
                 if (FFtarget == null) {
                     player.sendMessage(MM.deserialize("<red>Couldn't find player <yellow>" + target.getName() + "<red>!"));
@@ -199,5 +199,26 @@ public class FFCommand extends BaseCommand {
             });
         }
         player.sendMessage(MM.deserialize("<gray>Set the global nametag status to <yellow>" + value + "<gray>."));
+    }
+
+    @Subcommand("assignall")
+    public void assignAll(Player player, @Single String name) {
+        Team team = Friendlyfire.teams.get(name);
+        if (team == null) {
+            player.sendMessage(MM.deserialize("<red>Team <yellow>" + name + " <red>does not exist! Please create it first."));
+            return;
+        }
+
+        Bukkit.getOnlinePlayers().forEach(onlinePlayer -> {
+            FFPlayer FFonline = Friendlyfire.playerList.get(onlinePlayer.getName());
+            if (FFonline == null) {
+                Bukkit.getLogger().info("Player " + onlinePlayer.getName() + " is null @AssignAll!");
+                return;
+            }
+            if (FFonline.getTeam() == null) {
+                team.addPlayer(FFonline);
+                player.sendMessage(MM.deserialize("<gray>Added player <yellow>" + onlinePlayer.getName() + " <gray>to team <yellow>" + team.getName() + "<gray>."));
+            }
+        });
     }
 }
